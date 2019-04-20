@@ -1,0 +1,47 @@
+version: '3.7'
+services:
+  redis:
+    image: redis:alpine
+    container_name: ${CONTAINER_PREFIX}_redis
+  pgsql:
+    image: postgres:alpine
+    container_name: ${CONTAINER_PREFIX}_pgsql
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - 5432:5432
+    volumes:
+      - data:/var/lib/postgresql/data
+  nginx:
+    container_name: ${CONTAINER_PREFIX}_nginx
+    build:
+      context: ./nginx
+    volumes:
+      - ${PATH_PROJECT_HOST}:${PATH_PROJECT_CONTAINER}
+    ports:
+      - 80:80
+  php:
+    container_name: ${CONTAINER_PREFIX}_php
+    build:
+      context: ./php
+    volumes:
+      - ${PATH_PROJECT_HOST}:${PATH_PROJECT_CONTAINER}
+  workplace:
+    container_name: ${CONTAINER_PREFIX}_workplace
+    build:
+      context: ./workplace
+      args:
+        - PATH_PROJECT_CONTAINER=${PATH_PROJECT_CONTAINER}
+    volumes:
+      - ${PATH_PROJECT_HOST}:${PATH_PROJECT_CONTAINER}
+  adminer:
+    container_name: ${CONTAINER_PREFIX}_adminer
+    image: adminer
+    ports:
+      - 8080:8080
+volumes:
+  data:
+    external: true
+    name: ${CONTAINER_PREFIX}_data
