@@ -3,8 +3,6 @@ services:
   redis:
     image: redis:alpine
     container_name: ${CONTAINER_PREFIX}_redis
-    volumes:
-      - data:/data
   pgsql:
     image: postgres:alpine
     container_name: ${CONTAINER_PREFIX}_pgsql

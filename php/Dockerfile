@@ -20,3 +20,6 @@ RUN docker-php-ext-install pdo_mysql \
  && docker-php-ext-install zip \
  && docker-php-ext-configure gd --with-jpeg-dir=/usr/lib --with-freetype-dir=/usr/include/freetype2 \
  && docker-php-ext-install gd
+
+RUN printf "\n" | pecl install redis \
+ && docker-php-ext-enable redis 
