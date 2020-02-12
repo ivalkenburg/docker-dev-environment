@@ -15,7 +15,7 @@ RUN apt update \
 ##################################################################################################
 
 RUN add-apt-repository -y ppa:ondrej/php \
- && curl -sL https://deb.nodesource.com/setup_11.x | bash \
+ && curl -sL https://deb.nodesource.com/setup_12.x | bash \
  && apt update \
  && apt upgrade -y
 
