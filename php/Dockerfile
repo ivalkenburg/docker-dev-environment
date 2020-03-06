@@ -21,5 +21,5 @@ RUN docker-php-ext-install pdo_mysql \
  && docker-php-ext-configure gd \
  && docker-php-ext-install gd
 
-RUN printf "\n" | pecl install redis \
+RUN pecl install redis \
  && docker-php-ext-enable redis
