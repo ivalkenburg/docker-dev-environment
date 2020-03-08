@@ -23,3 +23,7 @@ RUN docker-php-ext-install pdo_mysql \
 
 RUN pecl install redis \
  && docker-php-ext-enable redis
+
+RUN pecl install xdebug \
+ && docker-php-ext-enable xdebug \
+ && echo "xdebug.remote_enable=on" >> $(find /usr/local/etc/php/conf.d -name *xdebug*)

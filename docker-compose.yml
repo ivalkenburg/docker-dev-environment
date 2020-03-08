@@ -28,6 +28,9 @@ services:
       context: ./php
     volumes:
       - ${PATH_PROJECT_HOST}:${PATH_PROJECT_CONTAINER}
+    environment:
+      XDEBUG_CONFIG: remote_host=${XDEBUG_REMOTE_HOST}
+      PHP_IDE_CONFIG: serverName=${CONTAINER_PREFIX}
   workplace:
     container_name: ${CONTAINER_PREFIX}_workplace
     build:
