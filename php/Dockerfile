@@ -27,3 +27,6 @@ RUN pecl install redis \
 RUN pecl install xdebug \
  && docker-php-ext-enable xdebug \
  && echo "xdebug.remote_enable=on" >> $(find /usr/local/etc/php/conf.d -name *xdebug*)
+
+RUN pecl install mongodb \
+ && docker-php-ext-enable mongodb

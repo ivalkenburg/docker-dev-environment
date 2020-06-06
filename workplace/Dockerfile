@@ -57,6 +57,7 @@ RUN apt update \
     postgresql-client \
     redis-tools \
     nodejs \
+    mongodb \
  && apt-get clean
 
 RUN npm install -g yarn

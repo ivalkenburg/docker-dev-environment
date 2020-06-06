@@ -16,6 +16,16 @@ services:
       - ${PGSQL_EXT_PORT}:5432
     volumes:
       - data:/var/lib/postgresql/data
+  mongo:
+    image: mongo
+    container_name: ${CONTAINER_PREFIX}_mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    ports:
+      - ${MONGO_EXT_PORT}:27017
+    volumes:
+      - data:/data/db
   nginx:
     container_name: ${CONTAINER_PREFIX}_nginx
     build:
@@ -41,11 +51,6 @@ services:
         - PATH_PROJECT_CONTAINER=${PATH_PROJECT_CONTAINER}
     volumes:
       - ${PATH_PROJECT_HOST}:${PATH_PROJECT_CONTAINER}
-  adminer:
-    container_name: ${CONTAINER_PREFIX}_adminer
-    image: adminer
-    ports:
-      - ${ADMINER_EXT_PORT}:8080
 volumes:
   data:
     external: true
