@@ -42,6 +42,7 @@ RUN apt update \
     php7.4-memcached \
     php7.4-gd \
     php7.4-dev \
+    php7.4-mongodb \
     pkg-config \
     wget \
     unzip \
@@ -57,7 +58,6 @@ RUN apt update \
     postgresql-client \
     redis-tools \
     nodejs \
-    mongodb \
  && apt-get clean
 
 RUN npm install -g yarn
