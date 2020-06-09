@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 services:
   redis:
     image: redis:alpine
@@ -15,7 +15,7 @@ services:
     ports:
       - ${PGSQL_EXT_PORT}:5432
     volumes:
-      - data:/var/lib/postgresql/data
+      - pgsql:/var/lib/postgresql/data
   mongo:
     image: mongo
     container_name: ${CONTAINER_PREFIX}_mongo
@@ -25,7 +25,7 @@ services:
     ports:
       - ${MONGO_EXT_PORT}:27017
     volumes:
-      - data:/data/db
+      - mongo:/data/db
   nginx:
     container_name: ${CONTAINER_PREFIX}_nginx
     build:
@@ -52,6 +52,7 @@ services:
     volumes:
       - ${PATH_PROJECT_HOST}:${PATH_PROJECT_CONTAINER}
 volumes:
-  data:
-    external: true
-    name: ${CONTAINER_PREFIX}_data
+  pgsql:
+    name: ${CONTAINER_PREFIX}_pgsql_data
+  mongo:
+    name: ${CONTAINER_PREFIX}_mongo_data
