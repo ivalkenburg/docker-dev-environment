@@ -44,6 +44,7 @@ RUN apt update \
     postgresql-client \
     redis-tools \
     nodejs \
+    nano \
     zsh \
  && apt-get clean
 
@@ -60,4 +61,6 @@ ARG PATH_PROJECT_CONTAINER
 
 WORKDIR ${PATH_PROJECT_CONTAINER}
 
-CMD ["tail", "-f", "/dev/null"]
+COPY zshrc /root/.zshrc
+
+ENTRYPOINT ["tail", "-f", "/dev/null"]
