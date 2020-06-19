@@ -38,6 +38,7 @@ RUN apt update \
     php-memcached \
     php-gd \
     php-mongodb \
+    php-xdebug \
     wget \
     unzip \
     git \
