@@ -46,6 +46,7 @@ RUN apt update \
     nodejs \
     nano \
     zsh \
+    dumb-init \
  && apt-get clean
 
 RUN npm i -g yarn
@@ -63,4 +64,6 @@ WORKDIR ${PATH_PROJECT_CONTAINER}
 
 COPY zshrc /root/.zshrc
 
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+ENTRYPOINT ["dumb-init", "-v", "--"]
+
+CMD ["tail", "-f", "/dev/null"]
