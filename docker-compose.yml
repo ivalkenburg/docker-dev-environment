@@ -1,0 +1,116 @@
+version: "3.8"
+networks:
+  default:
+    driver: ${NETWORK_DRIVER}
+volumes:
+  pgsql:
+    driver: ${VOLUME_DRIVER}
+  mysql:
+    driver: ${VOLUME_DRIVER}
+  redis:
+    driver: ${VOLUME_DRIVER}
+  mongodb:
+    driver: ${VOLUME_DRIVER}
+services:
+  workspace:
+    build:
+      context: ./workspace
+      args:
+        - TIMEZONE=${PROJECT_TIMEZONE}
+        - PUID=${WORKSPACE_PUID}
+        - PGID=${WORKSPACE_PGID}
+        - INSTALL_ZSH=${WORKSPACE_ZSH}
+        - INSTALL_BCMATH=${PHP_BCMATH}
+        - INSTALL_ZIP=${PHP_ZIP}
+        - INSTALL_GD=${PHP_GD}
+        - INSTALL_REDIS=${PHP_REDIS}
+        - INSTALL_MONGODB=${PHP_MONGODB}
+        - INSTALL_MYSQL=${PHP_MYSQL}
+        - INSTALL_PGSQL=${PHP_PGSQL}
+        - INSTALL_XDEBUG=${PHP_XDEBUG}
+        - ENABLE_OPCACHE=${PHP_OPCACHE}
+        - PROJECT_CONTAINER_PATH=${PROJECT_CONTAINER_PATH}
+    volumes:
+      - ${PROJECT_HOST_PATH}:${PROJECT_CONTAINER_PATH}${PROJECT_VOLUME_SUFFIX}
+    environment:
+      XDEBUG_CONFIG: remote_host=${XDEBUG_REMOTE_HOST} remote_enable=${XDEBUG_REMOTE_ENABLE}
+      PHP_IDE_CONFIG: serverName=${XDEBUG_SERVER_NAME}
+    networks:
+      - default
+  nginx:
+    build:
+      context: ./nginx
+    volumes:
+      - ${PROJECT_HOST_PATH}:${PROJECT_CONTAINER_PATH}${PROJECT_VOLUME_SUFFIX}
+    ports:
+      - ${NGINX_EXT_PORT}:80
+    networks:
+      - default
+    depends_on:
+      - php-fpm
+  php-fpm:
+    build:
+      context: ./php-fpm
+      args:
+        - PUID=${PHP_FPM_PUID}
+        - PGID=${PHP_FPM_PGID}
+        - INSTALL_GD=${PHP_GD}
+        - INSTALL_ZIP=${PHP_ZIP}
+        - INSTALL_BCMATH=${PHP_BCMATH}
+        - INSTALL_PGSQL=${PHP_PGSQL}
+        - INSTALL_MYSQL=${PHP_MYSQL}
+        - INSTALL_MONGODB=${PHP_MONGODB}
+        - INSTALL_REDIS=${PHP_REDIS}
+        - INSTALL_XDEBUG=${PHP_XDEBUG}
+        - ENABLE_OPCACHE=${PHP_OPCACHE}
+    volumes:
+      - ${PROJECT_HOST_PATH}:${PROJECT_CONTAINER_PATH}${PROJECT_VOLUME_SUFFIX}
+    environment:
+      XDEBUG_CONFIG: remote_host=${XDEBUG_REMOTE_HOST} remote_enable=${XDEBUG_REMOTE_ENABLE}
+      PHP_IDE_CONFIG: serverName=${XDEBUG_SERVER_NAME}
+    networks:
+      - default
+  pgsql:
+    image: postgres:latest
+    volumes:
+      - pgsql:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${PGSQL_USER}
+      POSTGRES_PASSWORD: ${PGSQL_PASSWORD}
+      POSTGRES_DB: ${PGSQL_DB}
+    ports:
+      - ${PGSQL_EXT_PORT}:5432
+    networks:
+      - default
+  mysql:
+    image: mysql:latest
+    volumes:
+      - mysql:/var/lib/mysql
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DB}
+    ports:
+      - ${MYSQL_EXT_PORT}:3306
+    networks:
+      - default
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - mongodb:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+    ports:
+      - ${MONGODB_EXT_PORT}:27017
+    networks:
+      - default
+  redis:
+    image: redis:alpine
+    volumes:
+      - redis:/data
+    ports:
+      - ${REDIS_EXT_PORT}:6379
+    networks:
+      - default
