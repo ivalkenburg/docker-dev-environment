@@ -52,7 +52,7 @@ services:
     build:
       context: ./php-fpm
       args:
-        - TIMEZONE=${TIMEZONE}
+        - TIMEZONE=${PROJECT_TIMEZONE}
         - PUID=${PHP_FPM_PUID}
         - PGID=${PHP_FPM_PGID}
         - INSTALL_GD=${PHP_GD}
