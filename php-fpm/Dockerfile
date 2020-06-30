@@ -14,12 +14,21 @@ RUN apt update && \
 
 COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
-ARG PUID=10000
+ARG PUID=1000
 ENV PUID ${PUID}
 ARG PGID=1000
 ENV PGID ${PGID}
 RUN groupmod -o -g ${PGID} www-data && \
     usermod -o -u ${PUID} -g www-data www-data
+
+# SET TIMEZONE ####################################################################################
+
+USER root
+
+ARG TIMEZONE=UTC
+ENV TZ ${TIMEZONE}
+
+RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone
 
 # INSTALL GD ######################################################################################
 

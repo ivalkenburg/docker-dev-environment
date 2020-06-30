@@ -1,15 +1,16 @@
 FROM ubuntu
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV TERM xterm
 
-# UPGRADE BASE SYSTEM #####################################################################
+# UPGRADE BASE SYSTEM #############################################################################
 
 USER root
 
 RUN apt update && \
     apt upgrade -y
 
-# ADDING REPO'S ###########################################################################
+# ADDING REPO'S ###################################################################################
 
 USER root
 
@@ -20,26 +21,14 @@ RUN apt install -y software-properties-common curl && \
     apt update && \
     apt upgrade -y
 
-# SETTING UP LOCALES ##############################################################################
-
-USER root
-
-RUN apt install -y locales && locale-gen en_US.UTF-8
-
-ENV LANGUAGE=en_US.UTF-8
-ENV LC_ALL=en_US.UTF-8
-ENV LC_CTYPE=en_US.UTF-8
-ENV LANG=en_US.UTF-8
-ENV TERM xterm
-
 # SET TIMEZONE ####################################################################################
 
 USER root
 
-ARG TIMEZONE=CEST
-ENV TIMEZONE ${TIMEZONE}
+ARG TIMEZONE=UTC
+ENV TZ ${TIMEZONE}
 
-RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo ${TIMEZONE} > /etc/timezone
+RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone
 
 # INSTALL BASE ####################################################################################
 
