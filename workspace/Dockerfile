@@ -7,7 +7,8 @@ ENV TERM xterm
 
 USER root
 
-RUN apt update && \
+RUN set -xe && \
+    apt update && \
     apt upgrade -y
 
 # ADDING REPO'S ###################################################################################

@@ -6,10 +6,12 @@ USER root
 
 # SETUP BASE SYSTEM ###############################################################################
 
-RUN apt update && \
+RUN set -xe && \
+    apt update && \
     apt upgrade -y && \
     apt install -y apt-utils && \
     apt autoremove -y --purge && \
+    pecl channel-update pecl.php.net && \
     docker-php-ext-install opcache
 
 COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
@@ -73,6 +75,7 @@ RUN if [ ${INSTALL_MYSQL} = true ]; then \
 
 ARG INSTALL_MONGODB=false
 RUN if [ ${INSTALL_MONGODB} = true ]; then \
+    apt install -y libssl-dev && \
     pecl install mongodb && \
     docker-php-ext-enable mongodb \
     ;fi
