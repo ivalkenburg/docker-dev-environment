@@ -165,6 +165,15 @@ RUN if [ ${INSTALL_PGSQL} = true ]; then \
     apt install -y php-pgsql postgresql-client \
     ;fi
 
+USER root
+
+# INSTALL SQLITE3 #################################################################################
+
+ARG INSTALL_SQLITE=false
+RUN if [ ${INSTALL_SQLITE} = true ]; then \
+    apt install -y php-sqlite3 sqlite3 \
+    ;fi
+
 # DISABLE OPCACHE #################################################################################
 
 USER root
