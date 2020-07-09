@@ -3,3 +3,4 @@
 alias art='php artisan'
 alias pa='php artisan'
 alias flush_redis='redis-cli -h redis flushall'
+alias redis='redis-cli -h redis'
