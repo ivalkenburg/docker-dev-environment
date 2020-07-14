@@ -15,7 +15,7 @@ RUN set -xe && \
 
 USER root
 
-RUN apt install -y software-properties-common curl && \
+RUN apt install -y software-properties-common curl apt-utils && \
     add-apt-repository -y ppa:ondrej/php && \
     add-apt-repository -y ppa:git-core/ppa && \
     curl -sL https://deb.nodesource.com/setup_14.x | bash && \
