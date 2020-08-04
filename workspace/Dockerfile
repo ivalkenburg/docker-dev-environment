@@ -1,6 +1,6 @@
 FROM ubuntu
 
-ENV DEBIAN_FRONTEND=noninteractive
+ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm
 
 # UPGRADE BASE SYSTEM #############################################################################

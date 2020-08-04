@@ -1,6 +1,6 @@
 FROM php:fpm
 
-ENV DEBIAN_FRONTEND=noninteractive
+ENV DEBIAN_FRONTEND noninteractive
 
 USER root
 
