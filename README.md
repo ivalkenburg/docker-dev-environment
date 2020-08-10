@@ -2,9 +2,9 @@
 
 ## Using Xdebug
 
-To be able to debug using xdebug, set `PHP_XDEBUG` to `true` in `.env`. If you have previously already build the images without xdebug enabled make sure to rebuild both nginx and php-fpm by running `docker-compose build nginx php-fpm`.
+To be able to debug using xdebug, set `PHP_XDEBUG` to `true` in `.env`. If you have previously already build the images without xdebug enabled make sure to rebuild both workspace and php-fpm by running `docker-compose build php-fpm workspace`.
 
-### Debugging using PhpStorm
+### PhpStorm
 
 1. Create a server in `File | Settings | Languages & Frameworks | PHP | Servers`.
 2. Make sure the server name matches to value `XDEBUG_SERVER_NAME` in the docker .env file.
@@ -13,7 +13,7 @@ To be able to debug using xdebug, set `PHP_XDEBUG` to `true` in `.env`. If you h
 5. Set a breakpoint in your source code and start listening for a debug connection.
 6. Happy debugging.
 
-### Debugging using Visual Studio Code
+### Visual Studio Code
 
 1. Make sure you have the [PHP Debug extension](https://marketplace.visualstudio.com/items?itemName=felixfbecker.php-debug) installed.
 2. Create a debug profile containing the correct path mapping. Do so by adding `"/app": "${workspaceFolder}"` to your `pathMappings`.
